@@ -28,15 +28,21 @@
   Usage: replay-logs
     [--addr host]
     [--concurrency n]
+    [--headers v...]
     [--rate n]
+
+  Example:
+
+    replay-logs --concurrency 10 < logs.txt
+    replay-logs -H Accept-Encoding:gzip < logs.txt
 
   Options:
     --concurrency n    request concurrency [default: 10]
     --addr addr        addr to use, the log path will be appended [default: http://localhost:80]
     --rate n           max requests per second [default: 100]
+    -H, --headers v    headers to add to the request [default: ]
     -h, --help         show help information
     -v, --version      show version information
-
 
 ```
 

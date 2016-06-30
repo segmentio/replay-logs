@@ -25,6 +25,7 @@ type log struct {
 // Config is the configuration.
 type Config struct {
 	Input       io.Reader
+	Headers     map[string]string
 	Addr        string
 	Rate        int
 	Concurrency int
@@ -33,6 +34,7 @@ type Config struct {
 // Worker is a request worker.
 type Worker struct {
 	scanner *bufio.Scanner
+	headers map[string]string
 	addr    string
 	logc    chan log
 	rate    *time.Ticker
@@ -48,6 +50,7 @@ func New(c Config) *Worker {
 		sema:    make(semaphore.Semaphore, c.Concurrency),
 		rate:    time.NewTicker(time.Second / time.Duration(c.Rate)),
 		stats:   stats.New(),
+		headers: c.Headers,
 		addr:    c.Addr,
 	}
 
@@ -93,6 +96,10 @@ func (w *Worker) request() {
 			if err != nil {
 				w.errorf("unable to create request: %s", err)
 				return
+			}
+
+			for key, value := range w.headers {
+				req.Header.Set(key, value)
 			}
 
 			resp, err := http.DefaultClient.Do(req)
