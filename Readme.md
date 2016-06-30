@@ -11,7 +11,7 @@
   ```bash
   $ aws s3 ls s3://<bucket>/cloudfront/<distribution>.<date> \
     | awk '{ printf("s3://<bucket>/cloudfront/%s", $4) }' \
-    | xargs -I % aws s3 cp % \
+    | xargs -I % aws s3 cp % - \
     | gzcat > logs.txt
   ```
 
