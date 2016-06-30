@@ -15,7 +15,7 @@
     | gzcat > logs.txt
   ```
 
-  Next run the command, supplying an the address:
+  Next run the command, supplying the destination address:
 
   ```bash
   $ replay-logs --addr http://stress.foo.baz < logs.txt
